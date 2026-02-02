@@ -1,182 +1,66 @@
-// Memory Card Game (HTML/CSS/JS)
+# 🃏 Memory Card Game (HTML, CSS, JavaScript)
 
-const gridEl = document.getElementById("grid");
-const movesEl = document.getElementById("moves");
-const timeEl = document.getElementById("time");
-const restartBtn = document.getElementById("restartBtn");
+A fun **Memory Match Card Game** built using **vanilla HTML, CSS, and JavaScript**.  
+Flip cards, find matching pairs, track **moves** and **time**, and try to win in the fewest moves!
 
-const winModal = document.getElementById("winModal");
-const winText = document.getElementById("winText");
-const playAgainBtn = document.getElementById("playAgainBtn");
-const closeBtn = document.getElementById("closeBtn");
+---
 
-// 8 pairs = 16 cards
-const EMOJIS = ["🍕","🎮","🚀","🐼","🎧","🌟","🍩","🏆"];
+## ✨ Features
 
-let deck = [];
-let firstCard = null;
-let secondCard = null;
-let lockBoard = false;
+- ✅ Flip-to-reveal card animation  
+- ✅ Matching logic (pair detection)  
+- ✅ Move counter  
+- ✅ Timer (starts on first move)  
+- ✅ Restart button  
+- ✅ Win modal popup  
+- ✅ Responsive grid (mobile-friendly)
 
-let moves = 0;
-let matchedPairs = 0;
+---
 
-let timerId = null;
-let seconds = 0;
-let timerStarted = false;
+## 📸 Preview
 
-function shuffle(array) {
-  // Fisher-Yates
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
+Add a screenshot here after running the project:
 
-function formatTime(totalSeconds) {
-  const mm = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
-  const ss = String(totalSeconds % 60).padStart(2, "0");
-  return `${mm}:${ss}`;
-}
+```md
+![Game Preview](./preview.png)
+📁 Project Structure
+memory-card-game/
+│── index.html
+│── style.css
+│── script.js
+└── README.md
+🚀 Run Locally
+Download or clone the repository
 
-function startTimer() {
-  if (timerStarted) return;
-  timerStarted = true;
-  timerId = setInterval(() => {
-    seconds++;
-    timeEl.textContent = formatTime(seconds);
-  }, 1000);
-}
+Open index.html in your browser
 
-function stopTimer() {
-  if (timerId) clearInterval(timerId);
-  timerId = null;
-  timerStarted = false;
-}
+That’s it ✅
 
-function resetStats() {
-  moves = 0;
-  matchedPairs = 0;
-  seconds = 0;
-  movesEl.textContent = "0";
-  timeEl.textContent = "00:00";
-  stopTimer();
-}
+🛠️ Tech Stack
+HTML
 
-function buildDeck() {
-  const pairs = [...EMOJIS, ...EMOJIS].map((emoji, idx) => ({
-    id: idx + "-" + emoji,
-    emoji
-  }));
-  deck = shuffle(pairs);
-}
+CSS
 
-function createCard({ id, emoji }) {
-  const card = document.createElement("button");
-  card.className = "card";
-  card.setAttribute("type", "button");
-  card.setAttribute("aria-label", "Memory card");
-  card.dataset.emoji = emoji;
-  card.dataset.id = id;
+JavaScript (Vanilla)
 
-  card.innerHTML = `
-    <div class="card-inner">
-      <div class="face front">
-        <div class="pattern" aria-hidden="true"></div>
-      </div>
-      <div class="face back">
-        <div class="emoji" aria-hidden="true">${emoji}</div>
-      </div>
-    </div>
-  `;
+🧠 How to Play
+Click any card to flip it
 
-  card.addEventListener("click", () => onCardClick(card));
-  return card;
-}
+Flip another card
 
-function renderBoard() {
-  gridEl.innerHTML = "";
-  deck.forEach((c) => gridEl.appendChild(createCard(c)));
-}
+If both match → they stay open
 
-function onCardClick(card) {
-  if (lockBoard) return;
-  if (card.classList.contains("flipped")) return;
-  if (card.classList.contains("matched")) return;
+If not → they flip back
 
-  startTimer();
-  card.classList.add("flipped");
+Match all pairs to win 🎉
 
-  if (!firstCard) {
-    firstCard = card;
-    return;
-  }
+🔧 Customization
+Want more difficulty?
 
-  secondCard = card;
-  moves++;
-  movesEl.textContent = String(moves);
+Add more emojis in script.js inside EMOJIS array
 
-  checkMatch();
-}
+Example:
 
-function checkMatch() {
-  if (!firstCard || !secondCard) return;
-
-  const isMatch = firstCard.dataset.emoji === secondCard.dataset.emoji;
-
-  if (isMatch) {
-    firstCard.classList.add("matched");
-    secondCard.classList.add("matched");
-
-    matchedPairs++;
-    resetTurn();
-
-    if (matchedPairs === EMOJIS.length) {
-      onWin();
-    }
-  } else {
-    lockBoard = true;
-    setTimeout(() => {
-      firstCard.classList.remove("flipped");
-      secondCard.classList.remove("flipped");
-      resetTurn();
-    }, 650);
-  }
-}
-
-function resetTurn() {
-  [firstCard, secondCard] = [null, null];
-  lockBoard = false;
-}
-
-function onWin() {
-  stopTimer();
-  const finalTime = formatTime(seconds);
-  winText.textContent = `You finished in ${finalTime} with ${moves} moves.`;
-  winModal.classList.remove("hidden");
-}
-
-function hideModal() {
-  winModal.classList.add("hidden");
-}
-
-function restartGame() {
-  hideModal();
-  resetTurn();
-  resetStats();
-  buildDeck();
-  renderBoard();
-}
-
-restartBtn.addEventListener("click", restartGame);
-playAgainBtn.addEventListener("click", restartGame);
-closeBtn.addEventListener("click", hideModal);
-
-// Close modal if user clicks outside modal card
-winModal.addEventListener("click", (e) => {
-  if (e.target === winModal) hideModal();
-});
-
-// Init
-restartGame();
+const EMOJIS = ["🍕","🎮","🚀","🐼","🎧","🌟","🍩","🏆","🍔","⚽"];
+📜 License
+Free to use for learning and personal projects.
