@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory Card Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div>
+        <h1>🃏 Memory Card Game</h1>
+        <p class="sub">Flip cards • Match pairs • Win fast</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="label">Moves</span>
+          <span id="moves" class="value">0</span>
+        </div>
+        <div class="stat">
+          <span class="label">Time</span>
+          <span id="time" class="value">00:00</span>
+        </div>
+        <button id="restartBtn" class="btn">Restart</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="grid" class="grid" aria-label="Memory game board"></div>
+    </main>
+
+    <div id="winModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <h2>🎉 You Win!</h2>
+        <p id="winText" class="modal-text">Nice!</p>
+        <div class="modal-actions">
+          <button id="playAgainBtn" class="btn primary">Play Again</button>
+          <button id="closeBtn" class="btn">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span>Built with HTML • CSS • JavaScript</span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
