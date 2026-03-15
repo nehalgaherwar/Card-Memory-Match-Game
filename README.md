@@ -16,15 +16,6 @@ Flip cards, find matching pairs, track **moves** and **time**, and try to win in
 - ✅ Responsive grid (mobile-friendly)
 
 ---
-
-## 📸 Preview
-
-Add a screenshot here after running the project:
-
-```md
-![Game Preview](./preview.png)
-```
----
 📁 Project Structure
 ```
 memory-card-game/
